@@ -2,27 +2,30 @@
 #include <stdlib.h>
 
 char encryptionALG(char m, int key,int keySum);
-int main (void){//ok I have no idea how to get the program to run with command line prompts
-    char str[100];
-    int key;
-    int keySum = 0;
+int main (int argc, char* argv[]){
+    if(argc < 3){
+        printf("no");
+        return 1;
+    }
+
+    char* str;//for some reason, the program won't compile with str[100]
+    str = argv[1];
+    int key = atoi(argv[2]);  
+    int keySum = 0;/*this is disabled at the moment,
+    but if you remove the // in the code below,
+    you'll have a continuosly shifting ceasar cypher */
     
-    
-    /*most of this is the same code; the magic happens in the changes
-     to the encryption algorithm down bellow*/
-    printf("\nWord to encrypt:");
-    scanf("%s",&str);
-    
-    printf("\nKey? (this key will determine how much each letter is shifted by):");
-    scanf("%i",&key);
-    
+    for(int i = 0; str[i]; i++){// converts to lower case
+        str[i] = tolower(str[i]);
+    }
+    printf("\n\nplaintext: %s",str);
     char cypher[100];
     
     for (int i = 0, n = strlen(str); i < n; i++){
         cypher[i] = encryptionALG(str[i],key,keySum);
         //keySum += key;
         
-        //this will contiuously shift it over! check it out, its pretty cool!
+        //^^this will contiuously shift it over!
     }
     
     keySum = 0;
@@ -35,12 +38,18 @@ int main (void){//ok I have no idea how to get the program to run with command l
         
         //keySum -= key;
     }
-    printf("\nDe-encryption: %s\n\n\n",solution);
+    printf("De-encryption: %s\n\n\n",solution);
     return 0;
 }
 
 char encryptionALG(char m, int key, int keySum){
     char m2 = m + key + keySum;
+    if(m2 < 97){
+        m2+=26;
+    }
+    if(m2 > 122){
+        m2-=26;
+    }
     return m2;
 }
 

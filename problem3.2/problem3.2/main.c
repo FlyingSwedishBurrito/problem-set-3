@@ -43,5 +43,3 @@ char encryptionALG(char m, int key, int keySum){
     char m2 = m + key + keySum;
     return m2;
 }
-
-
